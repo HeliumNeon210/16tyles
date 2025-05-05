@@ -11,12 +11,21 @@
     body {
       font-family: sans-serif;
       margin: 0;
-      background: #222;
-      color: #0f0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background: #222;
+      color: #0f0;
+    }
+
+    body.light {
+      background: #fefefe;
+      color: #222;
     }
 
     #tileClock {
@@ -40,12 +49,47 @@
     .tile.off {
       background-color: #333;
     }
+
+    body.light .tile.on {
+      background-color: #080;
+    }
+
+    body.light .tile.off {
+      background-color: #ccc;
+    }
+
+    #themeToggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 0.5em 1em;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    body.dark #themeToggle {
+      background-color: #444;
+      color: #ccc;
+    }
+
+    body.light #themeToggle {
+      background-color: #ddd;
+      color: #000;
+    }
+
+    #themeToggle:hover {
+      opacity: 0.8;
+    }
   </style>
 </head>
-<body>
+<body class="dark">
   <div id="tileClock">
     <!-- 16 tiles will be inserted here -->
   </div>
+  <button id="themeToggle">ライトテーマに切り替え</button>
 
   <script>
     const tileClock = document.getElementById("tileClock");
@@ -78,6 +122,18 @@
 
     setInterval(updateClock, 100);
     updateClock();
+
+    const body = document.body;
+    const toggleButton = document.getElementById("themeToggle");
+
+    toggleButton.addEventListener("click", () => {
+      const isDark = body.classList.contains("dark");
+      body.classList.toggle("dark", !isDark);
+      body.classList.toggle("light", isDark);
+      toggleButton.textContent = isDark
+        ? "ダークテーマに切り替え"
+        : "ライトテーマに切り替え";
+    });
   </script>
 </body>
 </html>
